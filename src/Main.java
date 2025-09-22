@@ -76,14 +76,23 @@ public class Main extends Application {
         
         Button register = new Button("Register");
         root.add(register, 1, 9);
-         
+        
+        Label totalLabel = new Label();
+        Label allowedExpLbl = new Label();
+        Label excessLbl = new Label();
+        Label savedLbl = new Label();
+        root.add(totalLabel, 0, 9);
+        root.add(allowedExpLbl, 0, 10);
+        root.add(excessLbl, 0, 11);
+        root.add(savedLbl, 0, 12);
+        
         register.setOnAction(event -> {
             
             register.setDisable(false);
             
-            if (!dayTF.getText().isEmpty() ||
-            !MilesTF.getText().isEmpty() ||
-            !LodgingTF.getText().isEmpty()){
+            if (dayTF.getText().isEmpty() ||
+            MilesTF.getText().isEmpty() ||
+            LodgingTF.getText().isEmpty()){
                 register.setDisable(true);
                 return;
             }
@@ -122,23 +131,18 @@ public class Main extends Application {
                     intValueAirFare + intValueCar + intValueCon;
             
            String totalString = String.valueOf(total);
-           Label totalLabel = new Label(totalString);
-           root.add(totalLabel, 0, 9);
+           
+          totalLabel.setText("Total Expenses: $" +  totalString);
+                //allowedExpLbl.setText("Total Allowed: $" + String.format("%.2f", allowedExpenses));
+                //excessLbl.setText("Excess to Pay: $" + String.format("%.2f", excess));
+                //savedLbl.setText("Amount Saved: $" + String.format("%.2f", saved));
             
         });
         
         
-        root.setOnMouseClicked(e -> {
-            boolean allFilled = !dayTF.getText().isEmpty()
-                    && !MilesTF.getText().isEmpty()
-                    && !LodgingTF.getText().isEmpty();
-            register.setDisable(!allFilled);
-        });
-        
-        
-        
         Scene scene = new Scene(root,500,500);
         scene.getStylesheets().add("demo.css");
+        stage.setTitle("Travel expense Calculator");
         stage.setScene(scene);
         stage.show();
     }
