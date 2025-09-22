@@ -109,9 +109,10 @@ public class Main extends Application {
             double intValueCar = Integer.parseInt(carString);
             
             String milesString = MilesTF.getText();
+            double finalValueMSaved = 0;
             if (milesString.contains("yes")) {
                 int intValueMiles = Integer.parseInt(milesString);
-                double finalValueMSaved = intValueMiles*(0.27);
+                finalValueMSaved = intValueMiles*(0.27);
             } 
             
             String parkingString = ParkingFeeTF.getText();
@@ -129,12 +130,12 @@ public class Main extends Application {
             double intValueLodging = Integer.parseInt(LodgingString);
             double finalValueLodgSaved = intValueLodging * intValuedayTG;
             
-            double total = intValueLodging + intValueMiles + 
+            double total = intValueLodging + 
                      + intValueTaxi + intValueParking  + intValuedayTG + 
                     intValueAirFare + intValueCar + intValueCon;
             
             double totalSaved = finalValueLodgSaved + finalValuePsaved + finalValueSavedTG + 
-                                   finalValueTSaved ;
+                                   finalValueTSaved + finalValueMSaved ;
             
            String totalString = String.valueOf(total);
            String totalSavedString = String.valueOf(totalSaved);
@@ -142,7 +143,7 @@ public class Main extends Application {
             totalLabel.setText("Total Expenses: $" +  totalString);
             //allowedExpLbl.setText("Total Allowed: $" + String.format("%.2f", allowedExpenses));
             //excessLbl.setText("Excess to Pay: $" + String.format("%.2f", excess));
-            savedLbl.setText("Amount Saved: $" + totalSavedString));
+            savedLbl.setText("Amount Saved: $" + totalSavedString);
             
         });
         
