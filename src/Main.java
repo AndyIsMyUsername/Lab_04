@@ -1,6 +1,8 @@
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -26,52 +28,117 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         
         
-        GridPane gp = new GridPane(10,10);
-        gp.setHgap(10);
-        gp.setVgap(10);
+        GridPane root = new GridPane(10,10);
+        root.setHgap(10);
+        root.setVgap(10);
+        root.setPadding(new Insets(25, 25, 25, 25 ));
         
         
         Label days = new Label("Days on the trip: ");
         TextField dayTF = new TextField();
-        gp.add(days, 0, 0);
-        gp.add(dayTF, 1, 0);
+        root.add(days, 0, 0);
+        root.add(dayTF, 1, 0);
         
         Label airfare = new Label("Airfare: ");
         TextField airfareTF = new TextField();
-        gp.add(airfare, 0, 2);
-        gp.add(airfareTF, 1, 2);
+        root.add(airfare, 0, 2);
+        root.add(airfareTF, 1, 2);
         
         Label carRental = new Label("Car rental: ");
         TextField carRentalTF = new TextField();
-        gp.add(carRental, 0, 3);
-        gp.add(carRentalTF, 1, 3);
+        root.add(carRental, 0, 3);
+        root.add(carRentalTF, 1, 3);
         
-        Label Miles = new Label("Miles: ");
+        Label Miles = new Label("total Miles: ");
         TextField MilesTF = new TextField();
-        gp.add(Miles, 0, 4);
-        gp.add(MilesTF, 1, 4);
+        root.add(Miles, 0, 4);
+        root.add(MilesTF, 1, 4);
         
-        Label ParkingFee = new Label("Parking Fee: ");
+        Label ParkingFee = new Label("Days Parking Fee: ");
         TextField ParkingFeeTF = new TextField();
-        gp.add(ParkingFee, 0, 5);
-        gp.add(ParkingFeeTF, 1, 5);
+        root.add(ParkingFee, 0, 5);
+        root.add(ParkingFeeTF, 1, 5);
         
-        Label TaxiCharges = new Label("Taxi Charges");
+        Label TaxiCharges = new Label("Days Taxi Charges");
         TextField TaxiChargesTF = new TextField();
-        gp.add(TaxiCharges, 0, 6);
-        gp.add(TaxiChargesTF, 1, 6);
+        root.add(TaxiCharges, 0, 6);
+        root.add(TaxiChargesTF, 1, 6);
         
         Label RegistFee = new Label("Registration Fees:");
         TextField RegistFeeTF = new TextField();
-        gp.add(RegistFee, 0, 7);
-        gp.add(RegistFeeTF, 1, 7);
+        root.add(RegistFee, 0, 7);
+        root.add(RegistFeeTF, 1, 7);
         
-        Label Lodging = new Label("Lodging Charges(Per Night): ");
+        Label Lodging = new Label("Lodging Charges days: ");
         TextField LodgingTF = new TextField();
-        gp.add(Lodging, 0, 8);
-        gp.add(LodgingTF, 1, 8);
+        root.add(Lodging, 0, 8);
+        root.add(LodgingTF, 1, 8);
         
-        Scene scene = new Scene(gp,500,500);
+        Button register = new Button("Register");
+        root.add(register, 1, 9);
+         
+        register.setOnAction(event -> {
+            
+            register.setDisable(false);
+            
+            if (!dayTF.getText().isEmpty() ||
+            !MilesTF.getText().isEmpty() ||
+            !LodgingTF.getText().isEmpty()){
+                register.setDisable(true);
+                return;
+            }
+            
+            String DayTGString = dayTF.getText();
+            double intValuedayTG = Integer.parseInt(DayTGString);
+            double finalValueTG = intValuedayTG*37;
+            
+            String airString = airfareTF.getText();
+            double intValueAirFare = Integer.parseInt(airString);
+            
+            String carString = carRentalTF.getText();
+            double intValueCar = Integer.parseInt(carString);
+            
+            String milesString = MilesTF.getText();
+            int intValueMiles = Integer.parseInt(milesString);
+            double finalValueM = intValueMiles*(0.27);
+            
+            String parkingString = ParkingFeeTF.getText();
+            double intValueParking = Integer.parseInt(parkingString);
+            double finalValueP = intValueParking * 10;
+            
+            String taxiString = TaxiChargesTF.getText();
+            double intValueTaxi = Integer.parseInt(taxiString);
+            double finalValueT = intValueTaxi * 20;
+            
+            String ConString = RegistFeeTF.getText();
+            double intValueCon = Integer.parseInt(ConString);
+            
+            String LodgingString = LodgingTF.getText();
+            double intValueLodging = Integer.parseInt(LodgingString);
+            double finalValueLodg = intValueLodging * 95;
+            
+            double total = finalValueLodg + finalValueM + 
+                    finalValueP + finalValueT + finalValueTG + 
+                    intValueAirFare + intValueCar + intValueCon;
+            
+           String totalString = String.valueOf(total);
+           Label totalLabel = new Label(totalString);
+           root.add(totalLabel, 0, 9);
+            
+        });
+        
+        
+        root.setOnMouseClicked(e -> {
+            boolean allFilled = !dayTF.getText().isEmpty()
+                    && !MilesTF.getText().isEmpty()
+                    && !LodgingTF.getText().isEmpty();
+            register.setDisable(!allFilled);
+        });
+        
+        
+        
+        Scene scene = new Scene(root,500,500);
+        scene.getStylesheets().add("demo.css");
         stage.setScene(scene);
         stage.show();
     }
