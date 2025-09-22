@@ -39,22 +39,22 @@ public class Main extends Application {
         root.add(days, 0, 0);
         root.add(dayTF, 1, 0);
         
-        Label airfare = new Label("Airfare: ");
+        Label airfare = new Label("Airfare $: ");
         TextField airfareTF = new TextField();
         root.add(airfare, 0, 2);
         root.add(airfareTF, 1, 2);
         
-        Label carRental = new Label("Car rental: ");
+        Label carRental = new Label("Car rental $: ");
         TextField carRentalTF = new TextField();
         root.add(carRental, 0, 3);
         root.add(carRentalTF, 1, 3);
         
-        Label Miles = new Label("total Miles: ");
+        Label Miles = new Label("total Miles, is it a private vehicle ? (yes or no): ");
         TextField MilesTF = new TextField();
         root.add(Miles, 0, 4);
         root.add(MilesTF, 1, 4);
         
-        Label ParkingFee = new Label("Days Parking Fee: ");
+        Label ParkingFee = new Label("Days Parking Fee $: ");
         TextField ParkingFeeTF = new TextField();
         root.add(ParkingFee, 0, 5);
         root.add(ParkingFeeTF, 1, 5);
@@ -64,12 +64,12 @@ public class Main extends Application {
         root.add(TaxiCharges, 0, 6);
         root.add(TaxiChargesTF, 1, 6);
         
-        Label RegistFee = new Label("Registration Fees:");
+        Label RegistFee = new Label("Registration Fees$ :");
         TextField RegistFeeTF = new TextField();
         root.add(RegistFee, 0, 7);
         root.add(RegistFeeTF, 1, 7);
         
-        Label Lodging = new Label("Lodging Charges days: ");
+        Label Lodging = new Label("Lodging Charges per days $: ");
         TextField LodgingTF = new TextField();
         root.add(Lodging, 0, 8);
         root.add(LodgingTF, 1, 8);
@@ -99,7 +99,8 @@ public class Main extends Application {
             
             String DayTGString = dayTF.getText();
             double intValuedayTG = Integer.parseInt(DayTGString);
-            double finalValueTG = intValuedayTG*37;
+            double finalValueSavedTG = intValuedayTG * 37;
+            
             
             String airString = airfareTF.getText();
             double intValueAirFare = Integer.parseInt(airString);
@@ -108,34 +109,40 @@ public class Main extends Application {
             double intValueCar = Integer.parseInt(carString);
             
             String milesString = MilesTF.getText();
-            int intValueMiles = Integer.parseInt(milesString);
-            double finalValueM = intValueMiles*(0.27);
+            if (milesString.contains("yes")) {
+                int intValueMiles = Integer.parseInt(milesString);
+                double finalValueMSaved = intValueMiles*(0.27);
+            } 
             
             String parkingString = ParkingFeeTF.getText();
             double intValueParking = Integer.parseInt(parkingString);
-            double finalValueP = intValueParking * 10;
+            double finalValuePsaved = intValueParking * 10;
             
             String taxiString = TaxiChargesTF.getText();
             double intValueTaxi = Integer.parseInt(taxiString);
-            double finalValueT = intValueTaxi * 20;
+            double finalValueTSaved = intValueTaxi * 20;
             
             String ConString = RegistFeeTF.getText();
             double intValueCon = Integer.parseInt(ConString);
             
             String LodgingString = LodgingTF.getText();
             double intValueLodging = Integer.parseInt(LodgingString);
-            double finalValueLodg = intValueLodging * 95;
+            double finalValueLodgSaved = intValueLodging * intValuedayTG;
             
-            double total = finalValueLodg + finalValueM + 
-                    finalValueP + finalValueT + finalValueTG + 
+            double total = intValueLodging + intValueMiles + 
+                     + intValueTaxi + intValueParking  + intValuedayTG + 
                     intValueAirFare + intValueCar + intValueCon;
             
+            double totalSaved = finalValueLodgSaved + finalValuePsaved + finalValueSavedTG + 
+                                   finalValueTSaved ;
+            
            String totalString = String.valueOf(total);
+           String totalSavedString = String.valueOf(totalSaved);
            
-          totalLabel.setText("Total Expenses: $" +  totalString);
-                //allowedExpLbl.setText("Total Allowed: $" + String.format("%.2f", allowedExpenses));
-                //excessLbl.setText("Excess to Pay: $" + String.format("%.2f", excess));
-                //savedLbl.setText("Amount Saved: $" + String.format("%.2f", saved));
+            totalLabel.setText("Total Expenses: $" +  totalString);
+            //allowedExpLbl.setText("Total Allowed: $" + String.format("%.2f", allowedExpenses));
+            //excessLbl.setText("Excess to Pay: $" + String.format("%.2f", excess));
+            savedLbl.setText("Amount Saved: $" + totalSavedString));
             
         });
         
